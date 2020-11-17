@@ -20,12 +20,11 @@ function App() {
 
   const handleClick = () => {
     if (inputRef.current.value) {
-      setSeconds(
-        inputRef.current.value
-          .split(':')
-          .map((el) => parseInt(el))
-          .reduce((acc, cur) => acc * 60 + cur)
-      );
+      const hms = inputRef.current.value;
+      const temp = hms.split(':');
+      const seconds = +temp[0] * 60 * 60 + +temp[1] * 60 + +temp[2];
+      console.log(temp);
+      setSeconds(seconds);
     }
     setPlay(!play);
   };
@@ -33,16 +32,27 @@ function App() {
   return (
     <div className='App'>
       <div className='Time'>
-        {seconds === 0
-          ? 'STOP'
-          : `0${Math.floor(seconds / 60)}`.substr(-2) +
-            ':' +
-            `0${seconds % 60}`.substr(-2)}
-        {/* {`0${Math.floor(seconds / 60)}`.substr(-2)}:
-        {`0${seconds % 60}`.substr(-2)} */}
+        <p>
+          {seconds === 0
+            ? 'STOP'
+            : `${
+                Math.floor(seconds / 60) < 10
+                  ? `0${Math.floor(seconds / 60)}`
+                  : Math.floor(seconds / 60)
+              }` +
+              ':' +
+              `0${seconds % 60}`.substr(-2)}
+        </p>
       </div>
       <div className='Controls'>
-        <input type='time' defaultValue='15:00' ref={inputRef} />
+        <input
+          type='time'
+          defaultValue='00:15:00'
+          ref={inputRef}
+          step='1'
+          min='00:00:00'
+          max='23:59:59'
+        />
         <button onClick={handleClick}>{!play ? 'Start' : 'Pause'}</button>
       </div>
     </div>
