@@ -23,7 +23,6 @@ function App() {
       const hms = inputRef.current.value;
       const temp = hms.split(':');
       const seconds = +temp[0] * 60 * 60 + +temp[1] * 60 + +temp[2];
-      console.log(temp);
       setSeconds(seconds);
     }
     setPlay(!play);
